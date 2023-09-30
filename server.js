@@ -1,14 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { connectToDatabase } = require('./config/connection'); // Import the connectToDatabase function
+const db = require('./config/connection');
 // Import route files
 const userRoutes = require('./routes/user-routes');
 const thoughtRoutes = require('./routes/thought-routes');
 const reactionRoutes = require('./routes/reaction-routes');
-
-// Use route files
-app.use('/api', userRoutes);
-app.use('/api', thoughtRoutes);
-app.use('/api', reactionRoutes);
 
 const cwd = process.cwd();
 const PORT = process.env.PORT || 3001;
@@ -19,17 +16,20 @@ const activity = cwd.includes('01-Activities') ? cwd.split('01-Activities')[1] :
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(routes);
 
-mongoose.connect('mongodb://localhost/socialnetwork', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+// Use route files
+app.use('/api', userRoutes);
+app.use('/api', thoughtRoutes);
+app.use('/api', reactionRoutes);
 
-mongoose.connection.once('open', () => {
-  app.listen(PORT, () => {
-    console.log(`API server for ${activity} running on port ${PORT}!`);
+// Establish the MongoDB connection using the connectToDatabase function
+connectToDatabase()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`API server for ${activity} running on port ${PORT}!`);
+    });
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error.message);
   });
-});
+
