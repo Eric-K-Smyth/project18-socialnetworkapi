@@ -1,3 +1,4 @@
+console.log('Reached user-controller.js');
 const { User, Thought } = require('../models');
 
 const userController = {
@@ -12,6 +13,7 @@ const userController = {
 
   getUserById: async (req, res) => {
     try {
+      console.log('getUserById function called');
       const user = await User.findById(req.params.userId)
         .populate('thoughts')
         .populate('friends');
@@ -25,10 +27,14 @@ const userController = {
   },
 
   createUser: async (req, res) => {
+    console.log('createUser function called');
     try {
+      console.log('Request body:', req.body); // Log the request body
       const user = await User.create(req.body);
+      console.log('New user:', user); // Log the newly created user
       res.json(user);
     } catch (error) {
+      console.error('Error creating user:', error); // Log any errors that occur
       res.status(500).json({ error: error.message });
     }
   },
