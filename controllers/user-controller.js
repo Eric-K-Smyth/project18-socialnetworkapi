@@ -1,4 +1,3 @@
-console.log('Reached user-controller.js');
 const { User, Thought } = require('../models');
 
 const userController = {
