@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Thought } = require('../models'); // Import both User and Thought models
+const { Thought, User } = require('../../models');
 
 // 1. GET all users
 router.get('/users', async (req, res) => {
@@ -29,9 +29,13 @@ router.get('/users/:userId', async (req, res) => {
 // 3. POST a new user
 router.post('/users', async (req, res) => {
   try {
+    console.log('POST new user route accessed');
+    console.log('Request body:', req.body);
+
     const user = await User.create(req.body);
     res.json(user);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 });

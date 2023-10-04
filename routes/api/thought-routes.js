@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { Thought, User, Reaction } = require('../models'); // Import Thought, User, and Reaction models
+const { Reaction } = require('../../models');
+const { Thought, User } = require('../../models');
 
 // 1. GET all thoughts
 router.get('/thoughts', async (req, res) => {

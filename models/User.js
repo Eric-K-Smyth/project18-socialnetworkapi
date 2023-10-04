@@ -1,37 +1,37 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    unique: true,
     required: true,
+    unique: true,
     trim: true,
   },
   email: {
     type: String,
     required: true,
     unique: true,
-    // Add email validation using a library or regex
+    match: [/.+@.+\..+/, 'Please enter a valid email address'],
   },
   thoughts: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Thought',
     },
   ],
   friends: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
   ],
 });
 
-// Create a virtual called friendCount
+// Create a virtual field for friendCount
 userSchema.virtual('friendCount').get(function () {
   return this.friends.length;
 });
 
-const User = model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

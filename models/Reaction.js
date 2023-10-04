@@ -1,14 +1,10 @@
-const { Schema } = require('mongoose');
+const mongoose = require('mongoose');
 
-const reactionSchema = new Schema({
-  reactionId: {
-    type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId(),
-  },
+const reactionSchema = new mongoose.Schema({
   reactionBody: {
     type: String,
     required: true,
-    maxlength: 280,
+    maxlength: 280, // Maximum 280 characters
   },
   username: {
     type: String,
@@ -17,7 +13,10 @@ const reactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+    get: (timestamp) => new Date(timestamp).toDateString(), // Format timestamp
   },
 });
 
-module.exports = reactionSchema;
+const Reaction = mongoose.model('Reaction', reactionSchema);
+
+module.exports = Reaction;
