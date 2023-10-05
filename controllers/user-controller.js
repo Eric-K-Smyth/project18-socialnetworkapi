@@ -1,7 +1,7 @@
 const { User, Thought } = require('../models');
 
 const userController = {
-  getAllUsers: async (req, res) => {
+  getAllUsers: async (req, res) => { //Gets all users
     try {
       const users = await User.find().populate('thoughts').populate('friends');
       res.json(users);
@@ -10,7 +10,7 @@ const userController = {
     }
   },
 
-  getUserById: async (req, res) => {
+  getUserById: async (req, res) => { //Gets users by id
     try {
       console.log('getUserById function called');
       const user = await User.findById(req.params.userId)
@@ -25,7 +25,7 @@ const userController = {
     }
   },
 
-  createUser: async (req, res) => {
+  createUser: async (req, res) => { //Creates User
     console.log('createUser function called');
     try {
       console.log('Request body:', req.body); // Log the request body
@@ -38,7 +38,7 @@ const userController = {
     }
   },
 
-  updateUser: async (req, res) => {
+  updateUser: async (req, res) => { //Updates a user
     try {
       const user = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
       if (!user) {
@@ -66,7 +66,7 @@ const userController = {
     }
   },
 
-  addFriend: async (req, res) => {
+  addFriend: async (req, res) => { //Adds a friend :)
     try {
       const user = await User.findById(req.params.userId);
       if (!user) {
@@ -84,7 +84,7 @@ const userController = {
     }
   },
 
-  removeFriend: async (req, res) => {
+  removeFriend: async (req, res) => { // Removes a friend :(
     try {
       const user = await User.findById(req.params.userId);
       if (!user) {

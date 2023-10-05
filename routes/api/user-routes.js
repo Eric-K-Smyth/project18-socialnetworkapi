@@ -1,6 +1,7 @@
+// Importing requirements
 const router = require('express').Router();
 const userController = require('../../controllers/user-controller');
-
+// All of the Operations in user-controller.js
 router.get('/:userId', userController.getUserById);
 router.get('/', userController.getAllUsers);
 

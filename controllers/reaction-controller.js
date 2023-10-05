@@ -1,7 +1,7 @@
 const { Reaction, Thought } = require('../models');
 
 const reactionController = {
-  createReaction: async (req, res) => {
+  createReaction: async (req, res) => { //Creates a reaction
     try {
       const reaction = await Reaction.create(req.body);
       const thought = await Thought.findByIdAndUpdate(
@@ -18,7 +18,7 @@ const reactionController = {
     }
   },
 
-  deleteReaction: async (req, res) => {
+  deleteReaction: async (req, res) => { //Deletes a reaction
     try {
       const reaction = await Reaction.findByIdAndDelete(req.params.reactionId);
       if (!reaction) {

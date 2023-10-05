@@ -1,7 +1,7 @@
 const { Thought, User } = require('../models');
 
 const thoughtController = {
-  getAllThoughts: async (req, res) => {
+  getAllThoughts: async (req, res) => { //Get all thoughts
     try {
       const thoughts = await Thought.find().populate('reactions');
       res.json(thoughts);
@@ -10,7 +10,7 @@ const thoughtController = {
     }
   },
 
-  getThoughtById: async (req, res) => {
+  getThoughtById: async (req, res) => { //Get a thought by a specific ID
     try {
       const thought = await Thought.findById(req.params.thoughtId).populate('reactions');
       if (!thought) {
@@ -22,7 +22,7 @@ const thoughtController = {
     }
   },
 
-  createThought: async (req, res) => {
+  createThought: async (req, res) => { //Create a thought 
     try {
       const thought = await Thought.create(req.body);
       const user = await User.findOneAndUpdate(
@@ -36,7 +36,7 @@ const thoughtController = {
     }
   },
 
-  updateThought: async (req, res) => {
+  updateThought: async (req, res) => { //Update a thought
     try {
       const thought = await Thought.findByIdAndUpdate(req.params.thoughtId, req.body, { new: true });
       if (!thought) {
@@ -48,7 +48,7 @@ const thoughtController = {
     }
   },
 
-  deleteThought: async (req, res) => {
+  deleteThought: async (req, res) => { //Delete a thought
     try {
       const thought = await Thought.findByIdAndDelete(req.params.thoughtId);
       if (!thought) {
