@@ -3,7 +3,14 @@ const { Thought, User } = require('../models');
 const thoughtController = {
   getAllThoughts: async (req, res) => { //Get all thoughts
     try {
-      const thoughts = await Thought.find().populate('reactions');
+      const thoughts = await Thought.find()
+      .populate('reactions')
+      .select('-__v');
+
+      thoughts.forEach((thought) => {
+        thought.reactionCount = thought.reactions.length;
+      }); //Shows reaction count for each thought
+
       res.json(thoughts);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -12,10 +19,15 @@ const thoughtController = {
 
   getThoughtById: async (req, res) => { //Get a thought by a specific ID
     try {
-      const thought = await Thought.findById(req.params.thoughtId).populate('reactions');
+      const thought = await Thought.findById(req.params.thoughtId)
+      .populate('reactions')
+      .select('-__v');
+
       if (!thought) {
         return res.status(404).json({ message: 'Thought not found' });
       }
+
+      thought.reactionCount = thought.reactions.length; //Shows reaction count for specific thought
       res.json(thought);
     } catch (error) {
       res.status(500).json({ error: error.message });
