@@ -13,7 +13,7 @@ const reactionSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    get: (timestamp) => new Date(timestamp).toDateString(), // Format timestamp
+    get: (timestamp) => new Date(timestamp).toLocalString(), // Format timestamp
   },
 });
 
